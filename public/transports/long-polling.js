@@ -1,0 +1,93 @@
+import { addMessage, updateStatus } from '../common.js';
+export class LongPollingTransport {
+    constructor() {
+        this.isPolling = false;
+        this.lastMessageTimestamp = new Date().toISOString();
+        this.pollTimeout = null;
+    }
+    connect() {
+        updateStatus('connecting', 'Connecting via Long Polling...');
+        this.isPolling = true;
+        this.startPolling();
+        addMessage({
+            type: 'system',
+            content: 'Long polling started',
+            timestamp: new Date().toISOString()
+        });
+    }
+    disconnect() {
+        this.isPolling = false;
+        if (this.pollTimeout) {
+            clearTimeout(this.pollTimeout);
+            this.pollTimeout = null;
+        }
+        updateStatus('disconnected', 'Long polling stopped');
+        addMessage({
+            type: 'system',
+            content: 'Long polling stopped',
+            timestamp: new Date().toISOString()
+        });
+    }
+    sendMessage(message) {
+        fetch('/api/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(message)
+        })
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to send message');
+            }
+            addMessage(message);
+        })
+            .catch(error => {
+            //updateStatus('d', `Failed to send message: ${error.message}`);
+            addMessage({
+                type: 'system',
+                content: `Failed to send message: ${error.message}`,
+                timestamp: new Date().toISOString()
+            });
+        });
+    }
+    startPolling() {
+        if (!this.isPolling)
+            return;
+        fetch(`/api/messages?since=${this.lastMessageTimestamp}`)
+            .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch messages');
+            }
+            return response.json();
+        })
+            .then((messages) => {
+            if (messages.length > 0) {
+                messages.forEach(message => {
+                    addMessage(message);
+                    this.lastMessageTimestamp = message.timestamp;
+                });
+            }
+            updateStatus('connected', 'Long polling connected');
+        })
+            .catch(error => {
+            //updateStatus('error');
+            addMessage({
+                type: 'system',
+                content: `Polling error: ${error.message}`,
+                timestamp: new Date().toISOString()
+            });
+        })
+            .finally(() => {
+            // Schedule next poll
+            this.pollTimeout = window.setTimeout(() => this.startPolling(), 5000);
+        });
+    }
+    getName() {
+        return 'Long Polling';
+    }
+    getFeatures() {
+        return 'HTTP-based, server holds request until new data, efficient for infrequent updates';
+    }
+}
+//# sourceMappingURL=long-polling.js.map
