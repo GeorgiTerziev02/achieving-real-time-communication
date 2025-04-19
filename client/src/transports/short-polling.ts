@@ -1,98 +1,56 @@
-import { Message, addMessage, updateStatus } from '../common.js';
+import { EventHandler } from './itransport.js';
 
 export class ShortPollingTransport {
-    private isPolling: boolean = false;
-    private lastMessageTimestamp: string = new Date().toISOString();
-    private pollInterval: number | null = null;
-    private readonly POLL_INTERVAL = 1000; // 1 second
+    private intervalId!: number;
 
-    public connect(): void {
-        updateStatus('connecting', 'Connecting via Short Polling...');
-        this.isPolling = true;
-        this.startPolling();
-        
-        addMessage({
-            type: 'system',
-            content: 'Short polling started',
-            timestamp: new Date().toISOString()
-        }, 'system');
-    }
+    private onReceiveHandler!: EventHandler;
+    private onCloseHandler!: EventHandler;
 
-    public disconnect(): void {
-        this.isPolling = false;
-        if (this.pollInterval) {
-            clearInterval(this.pollInterval);
-            this.pollInterval = null;
-        }
-        
-        updateStatus('disconnected', 'Disconnected from Short Polling');
-        addMessage({
-            type: 'system',
-            content: 'Short polling stopped',
-            timestamp: new Date().toISOString()
-        }, 'system');
-    }
-
-    public sendMessage(message: Message): void {
-        fetch('/api/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send message');
-            }
-            addMessage(message, 'sent');
-        })
-        .catch(error => {
-            updateStatus('disconnected', 'Failed to send message');
-            addMessage({
-                type: 'system',
-                content: `Failed to send message: ${error.message}`,
-                timestamp: new Date().toISOString()
-            }, 'system');
-        });
-    }
-
-    private startPolling(): void {
-        if (!this.isPolling) return;
-
-        this.pollInterval = window.setInterval(() => {
-            fetch(`/api/messages?since=${this.lastMessageTimestamp}`)
+    public connect() {
+        this.intervalId = window.setInterval(() => {
+            fetch("/api/realTime/shortPolling")
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch messages');
+                    if (response.status === 204) {
+                        throw new Error("No content");
                     }
-                    return response.json();
+                    return response;
                 })
-                .then((messages: Message[]) => {
-                    if (messages.length > 0) {
-                        messages.forEach(message => {
-                            addMessage(message, message.type === 'system' ? 'system' : 'received');
-                            this.lastMessageTimestamp = message.timestamp;
-                        });
-                    }
-                    updateStatus('connected', 'Connected via Short Polling');
+                .then(response => response.json())
+                .then(data => {
+                    this.onReceiveHandler(data);
                 })
-                .catch(error => {
-                    updateStatus('disconnected', 'Polling error occurred');
-                    addMessage({
-                        type: 'system',
-                        content: `Polling error: ${error.message}`,
-                        timestamp: new Date().toISOString()
-                    }, 'system');
-                });
-        }, this.POLL_INTERVAL);
+                .catch(console.error);
+        }, 1000);
+
+        return Promise.resolve();
     }
 
-    public getName(): string {
-        return 'Short Polling';
+    public send(data: any) {
+        		// event source is one directional
+		// here can set a logic like sending normal http request to specific endpoint
+		fetch("/api/realTime/shortPolling/event", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				eventName: "message",
+				data: "Hello from client"
+			})
+		});
     }
 
-    public getFeatures(): string {
-        return 'HTTP-based, frequent requests, simple implementation';
+    public stop() {
+        clearInterval(this.intervalId);
+    }
+
+    public onreceive(handler: EventHandler) {
+        this.onReceiveHandler = handler;
+    }
+
+    public onclose(handler: EventHandler) {
+        // is there such moment of closing?
+        // probably if are wainting for some specific answer from the server
+        this.onCloseHandler = handler;
     }
 } 

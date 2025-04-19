@@ -1,84 +1,44 @@
-import { addMessage, updateStatus } from '../common.js';
 export class SSETransport {
-    constructor() {
-        this.eventSource = null;
-        this.reconnectTimeout = null;
-    }
     connect() {
-        updateStatus('connecting', 'Connecting via Server-Sent Events...');
-        const sseUrl = `${window.location.protocol}//${window.location.host}/sse`;
-        this.eventSource = new EventSource(sseUrl);
-        this.eventSource.onopen = () => {
-            updateStatus('connected', 'SSE connection established');
-            addMessage({
-                type: 'system',
-                content: 'SSE connection established',
-                timestamp: new Date().toISOString()
-            });
-        };
+        this.eventSource = new EventSource("/api/realTime/sse");
         this.eventSource.onmessage = (event) => {
-            const message = JSON.parse(event.data);
-            addMessage(message);
+            this.onReceiveHandler({ eventName: "message", data: event.data });
         };
-        this.eventSource.onerror = () => {
-            //updateStatus('error', 'SSE connection error');
-            addMessage({
-                type: 'system',
-                content: 'SSE connection error',
-                timestamp: new Date().toISOString()
-            });
-            // Close the current connection
-            this.disconnect();
-            // Attempt to reconnect after 5 seconds
-            this.reconnectTimeout = window.setTimeout(() => this.connect(), 5000);
-        };
+        const promise = new Promise((resolve, reject) => {
+            this.eventSource.onopen = (event) => {
+                resolve(event);
+            };
+            this.eventSource.onmessage = (event) => {
+                this.onReceiveHandler(JSON.parse(event.data));
+            };
+            this.eventSource.onerror = (event) => {
+                console.error("EventSource failed:", event);
+            };
+        });
+        return promise;
     }
-    disconnect() {
-        if (this.reconnectTimeout) {
-            clearTimeout(this.reconnectTimeout);
-            this.reconnectTimeout = null;
-        }
-        if (this.eventSource) {
-            this.eventSource.close();
-            this.eventSource = null;
-            updateStatus('disconnected', 'SSE connection closed');
-            addMessage({
-                type: 'system',
-                content: 'SSE connection closed',
-                timestamp: new Date().toISOString()
-            });
-        }
-    }
-    sendMessage(message) {
-        // SSE is one-way communication from server to client
-        // We'll use a regular fetch request to send messages
-        fetch('/api/messages', {
-            method: 'POST',
+    send(data) {
+        // event source is one directional
+        // here can set a logic like sending normal http request to specific endpoint
+        fetch("/api/realTime/sse/event", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(message)
-        })
-            .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send message');
-            }
-            addMessage(message);
-        })
-            .catch(error => {
-            //updateStatus('error');
-            addMessage({
-                type: 'system',
-                content: `Failed to send message: ${error.message}`,
-                timestamp: new Date().toISOString()
-            });
+            body: JSON.stringify({
+                eventName: "message",
+                data: "Hello from client"
+            })
         });
     }
-    getName() {
-        return 'Server-Sent Events';
+    stop() {
+        this.eventSource.close();
     }
-    getFeatures() {
-        return 'One-way server-to-client streaming, automatic reconnection, HTTP-based';
+    onreceive(handler) {
+        this.onReceiveHandler = handler;
+    }
+    onclose(handler) {
+        this.onCloseHandler = handler;
     }
 }
 //# sourceMappingURL=sse.js.map

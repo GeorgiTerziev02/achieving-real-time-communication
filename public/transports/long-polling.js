@@ -1,93 +1,66 @@
-import { addMessage, updateStatus } from '../common.js';
 export class LongPollingTransport {
     constructor() {
-        this.isPolling = false;
-        this.lastMessageTimestamp = new Date().toISOString();
-        this.pollTimeout = null;
+        this.stopRequested = false;
     }
     connect() {
-        updateStatus('connecting', 'Connecting via Long Polling...');
-        this.isPolling = true;
-        this.startPolling();
-        addMessage({
-            type: 'system',
-            content: 'Long polling started',
-            timestamp: new Date().toISOString()
-        });
-    }
-    disconnect() {
-        this.isPolling = false;
-        if (this.pollTimeout) {
-            clearTimeout(this.pollTimeout);
-            this.pollTimeout = null;
-        }
-        updateStatus('disconnected', 'Long polling stopped');
-        addMessage({
-            type: 'system',
-            content: 'Long polling stopped',
-            timestamp: new Date().toISOString()
-        });
-    }
-    sendMessage(message) {
-        fetch('/api/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message)
-        })
-            .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send message');
+        fetch("/api/realTime/longPolling")
+            .then((res) => {
+            if (this.stopRequested) {
+                return;
             }
-            addMessage(message);
-        })
-            .catch(error => {
-            //updateStatus('d', `Failed to send message: ${error.message}`);
-            addMessage({
-                type: 'system',
-                content: `Failed to send message: ${error.message}`,
-                timestamp: new Date().toISOString()
-            });
-        });
-    }
-    startPolling() {
-        if (!this.isPolling)
-            return;
-        fetch(`/api/messages?since=${this.lastMessageTimestamp}`)
-            .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch messages');
+            // connection timeout
+            if (res.status === 502) {
+                this.connect();
+                return;
             }
-            return response.json();
-        })
-            .then((messages) => {
-            if (messages.length > 0) {
-                messages.forEach(message => {
-                    addMessage(message);
-                    this.lastMessageTimestamp = message.timestamp;
+            if (res.status === 200) {
+                res.json().then((data) => {
+                    this.onReceiveHandler(data);
                 });
+                this.connect();
+                return;
             }
-            updateStatus('connected', 'Long polling connected');
+            // something unexpected happened
+            // => retry mechanism
+            setTimeout(() => {
+                this.connect();
+            }, 5000);
         })
-            .catch(error => {
-            //updateStatus('error');
-            addMessage({
-                type: 'system',
-                content: `Polling error: ${error.message}`,
-                timestamp: new Date().toISOString()
-            });
-        })
-            .finally(() => {
-            // Schedule next poll
-            this.pollTimeout = window.setTimeout(() => this.startPolling(), 5000);
+            .catch((err) => {
+            // something unexpected happened
+            // => retry mechanism
+            setTimeout(() => {
+                this.connect();
+            }, 5000);
+        });
+        return Promise.resolve();
+    }
+    send(data) {
+        // event source is one directional
+        // here can set a logic like sending normal http request to specific endpoint
+        fetch("/api/realTime/longPolling/event", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                eventName: "message",
+                data: "Hello from client"
+            })
         });
     }
-    getName() {
-        return 'Long Polling';
+    stop() {
+        // not the best way
+        // bettter play around with promise.race/promise.any
+        this.stopRequested = true;
     }
-    getFeatures() {
-        return 'HTTP-based, server holds request until new data, efficient for infrequent updates';
+    onreceive(handler) {
+        this.onReceiveHandler = handler;
+    }
+    onclose(handler) {
+        // is there such moment of closing?
+        // probably if we predefine some answer from the server
+        this.onCloseHandler = handler;
     }
 }
 //# sourceMappingURL=long-polling.js.map

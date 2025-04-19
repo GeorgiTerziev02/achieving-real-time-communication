@@ -1,0 +1,50 @@
+// @ts-check
+export class RealTimeConnection {
+    constructor(transport) {
+        this.transport = transport;
+        // also manages:
+        // - retry mechanisms
+        // - ping pong - keep alive connection
+        // - operation logging
+        // - protocol => json, binary, custom
+        this.eventsToHandlers = new Map();
+        this.intentionalClose = false;
+        this.transport.onreceive((data) => {
+            if (this.eventsToHandlers.has(data.eventName)) {
+                this.eventsToHandlers
+                    .get(data.eventName)
+                    .forEach((handler) => handler(data));
+            }
+        });
+        this.transport.onclose(() => {
+            if (this.intentionalClose) {
+                return;
+            }
+            setTimeout(() => {
+                this.start();
+            }, 5000);
+        });
+    }
+    start() {
+        return this.transport.connect();
+    }
+    send(data) {
+        this.transport.send(data);
+    }
+    on(eventName, handler) {
+        if (!this.eventsToHandlers.has(eventName)) {
+            this.eventsToHandlers.set(eventName, new Set());
+        }
+        this.eventsToHandlers.get(eventName).add(handler);
+    }
+    off(eventName, handler) {
+        if (this.eventsToHandlers.has(eventName)) {
+            this.eventsToHandlers.get(eventName).delete(handler);
+        }
+    }
+    stop() {
+        this.intentionalClose = true;
+        this.transport.stop();
+    }
+}
+//# sourceMappingURL=real-time-connection.js.map

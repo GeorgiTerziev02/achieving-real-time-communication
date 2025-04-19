@@ -1,99 +1,77 @@
-import { Message, addMessage, updateStatus } from '../common.js';
+import { EventHandler, ITransport } from './itransport.js';
 
-export class LongPollingTransport {
-    private isPolling: boolean = false;
-    private lastMessageTimestamp: string = new Date().toISOString();
-    private pollTimeout: number | null = null;
+export class LongPollingTransport implements ITransport {
+    private stopRequested = false;
 
-    public connect(): void {
-        updateStatus('connecting', 'Connecting via Long Polling...');
-        this.isPolling = true;
-        this.startPolling();
-        
-        addMessage({
-            type: 'system',
-            content: 'Long polling started',
-            timestamp: new Date().toISOString()
-        });
-    }
+    private onReceiveHandler!: EventHandler;
+    private onCloseHandler!: EventHandler;
 
-    public disconnect(): void {
-        this.isPolling = false;
-        if (this.pollTimeout) {
-            clearTimeout(this.pollTimeout);
-            this.pollTimeout = null;
-        }
-        
-        updateStatus('disconnected', 'Long polling stopped');
-        addMessage({
-            type: 'system',
-            content: 'Long polling stopped',
-            timestamp: new Date().toISOString()
-        });
-    }
-
-    public sendMessage(message: Message): void {
-        fetch('/api/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(message)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send message');
-            }
-            addMessage(message);
-        })
-        .catch(error => {
-            //updateStatus('d', `Failed to send message: ${error.message}`);
-            addMessage({
-                type: 'system',
-                content: `Failed to send message: ${error.message}`,
-                timestamp: new Date().toISOString()
-            });
-        });
-    }
-
-    private startPolling(): void {
-        if (!this.isPolling) return;
-
-        fetch(`/api/messages?since=${this.lastMessageTimestamp}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch messages');
+    public connect() {
+        fetch("/api/realTime/longPolling")
+            .then((res) => {
+                if(this.stopRequested) {
+                    return;
                 }
-                return response.json();
-            })
-            .then((messages: Message[]) => {
-                if (messages.length > 0) {
-                    messages.forEach(message => {
-                        addMessage(message);
-                        this.lastMessageTimestamp = message.timestamp;
+                // connection timeout
+                if(res.status === 502) {
+                    this.connect();
+                    return;
+                }
+
+                if(res.status === 200) {
+                    res.json().then((data) => {
+                        this.onReceiveHandler(data);
                     });
+                    this.connect();
+                    return;
                 }
-                updateStatus('connected', 'Long polling connected');
+
+                // something unexpected happened
+                // => retry mechanism
+                setTimeout(() => {
+                    this.connect();
+                }, 5000);
             })
-            .catch(error => {
-                //updateStatus('error');
-                addMessage({
-                    type: 'system',
-                    content: `Polling error: ${error.message}`,
-                    timestamp: new Date().toISOString()
-                });
-            })
-            .finally(() => {
-                // Schedule next poll
-                this.pollTimeout = window.setTimeout(() => this.startPolling(), 5000);
+            .catch((err) => {
+                // something unexpected happened
+                // => retry mechanism
+                setTimeout(() => {
+                    this.connect();
+                }, 5000);
             });
+
+        return Promise.resolve();
     }
 
-    public getName(): string {
-        return 'Long Polling';
+    public send(data: any) {
+        		// event source is one directional
+		// here can set a logic like sending normal http request to specific endpoint
+		fetch("/api/realTime/longPolling/event", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				eventName: "message",
+				data: "Hello from client"
+			})
+		});
     }
 
-    public getFeatures(): string {
-        return 'HTTP-based, server holds request until new data, efficient for infrequent updates';
+    public stop() {
+        // not the best way
+        // bettter play around with promise.race/promise.any
+        this.stopRequested = true;
     }
+
+    public onreceive(handler: EventHandler) {
+        this.onReceiveHandler = handler;
+    }
+
+    public onclose(handler: EventHandler) {
+        // is there such moment of closing?
+        // probably if we predefine some answer from the server
+        this.onCloseHandler = handler;
+    }
+
 } 
