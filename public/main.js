@@ -23,6 +23,12 @@ const supportedTransports = [
         transportFactory: () => new ShortPollingTransport()
     }
 ];
+function registerEvents() {
+    realTimeConnection.on("chatMessage", (message) => {
+        const chatMessages = document.getElementById('messageArea');
+        chatMessages.innerHTML += `<div>${message}</div>`;
+    });
+}
 supportedTransports.forEach(({ buttonId, transportFactory }) => {
     const button = document.getElementById(buttonId);
     button.addEventListener("click", () => {
@@ -30,6 +36,7 @@ supportedTransports.forEach(({ buttonId, transportFactory }) => {
         const transport = transportFactory();
         realTimeConnection = new RealTimeConnection(transport);
         realTimeConnection.start();
+        registerEvents();
     });
 });
 const sendButton = document.getElementById('sendButton');
@@ -38,4 +45,5 @@ sendButton.addEventListener("click", () => {
     realTimeConnection.send("chatMessage", messageInput.value);
     messageInput.value = "";
 });
+registerEvents();
 //# sourceMappingURL=main.js.map

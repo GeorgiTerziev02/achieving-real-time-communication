@@ -1,9 +1,11 @@
 import { RealTimeConnection } from "./real-time-connection";
 export declare class ConnectionsRegistry {
+    private static instance;
     private connections;
-    private groups;
-    addConnection(connection: RealTimeConnection): void;
-    removeConnection(connection: RealTimeConnection): void;
+    private constructor();
+    static getInstance(): ConnectionsRegistry;
+    addConnection(id: string, connection: RealTimeConnection): void;
+    removeConnection(id: string): void;
     getConnection(id: string): RealTimeConnection | undefined;
-    hasConnection(id: string): boolean;
+    getAllConnections(): RealTimeConnection[];
 }

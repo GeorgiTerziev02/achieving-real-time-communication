@@ -9,11 +9,11 @@ export class RealTimeConnection {
         // - protocol => json, binary, custom
         this.eventsToHandlers = new Map();
         this.intentionalClose = false;
-        this.transport.onreceive((data) => {
-            if (this.eventsToHandlers.has(data.eventName)) {
+        this.transport.onreceive((eventMessage) => {
+            if (this.eventsToHandlers.has(eventMessage.eventName)) {
                 this.eventsToHandlers
-                    .get(data.eventName)
-                    .forEach((handler) => handler(data));
+                    .get(eventMessage.eventName)
+                    .forEach((handler) => handler(eventMessage.data));
             }
         });
         this.transport.onclose(() => {

@@ -1,1 +1,1 @@
-{"version":3,"file":"sse-transport.js","sourceRoot":"","sources":["../../src/transport/sse-transport.ts"],"names":[],"mappings":";;;AAEA,MAAa,YAAY;CAExB;AAFD,oCAEC"}
+{"version":3,"file":"sse-transport.js","sourceRoot":"","sources":["../../src/transport/sse-transport.ts"],"names":[],"mappings":";;;AAGA,MAAa,YAAY;IAEd,IAAI,CAAC,OAAgB;QACxB,MAAM,IAAI,KAAK,CAAC,yBAAyB,CAAC,CAAC;IAC/C,CAAC;CAEJ;AAND,oCAMC"}

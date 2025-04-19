@@ -1,1 +1,1 @@
-{"version":3,"file":"shortpolling-transport.js","sourceRoot":"","sources":["../../src/transport/shortpolling-transport.ts"],"names":[],"mappings":";;;AAEA,MAAa,qBAAqB;CAEjC;AAFD,sDAEC"}
+{"version":3,"file":"shortpolling-transport.js","sourceRoot":"","sources":["../../src/transport/shortpolling-transport.ts"],"names":[],"mappings":";;;AAGA,MAAa,qBAAqB;IAEvB,IAAI,CAAC,OAAgB;QACxB,MAAM,IAAI,KAAK,CAAC,yBAAyB,CAAC,CAAC;IAC/C,CAAC;CAEJ;AAND,sDAMC"}

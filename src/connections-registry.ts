@@ -2,22 +2,34 @@ import { RealTimeConnection } from "./real-time-connection";
 
 // Should support grouping
 export class ConnectionsRegistry {
-    private connections = new Map<string, RealTimeConnection>();
-    private groups = new Map<string, Set<RealTimeConnection>>();
+    private static instance: ConnectionsRegistry | null = null;
+    private connections: Map<string, RealTimeConnection>;
 
-    addConnection(connection: RealTimeConnection) {
-        this.connections.set(connection.id, connection);
+    private constructor() {
+        this.connections = new Map();
     }
 
-    removeConnection(connection: RealTimeConnection) {
-        this.connections.delete(connection.id);
+    public static getInstance(): ConnectionsRegistry {
+        if (!ConnectionsRegistry.instance) {
+            ConnectionsRegistry.instance = new ConnectionsRegistry();
+        }
+        return ConnectionsRegistry.instance;
     }
 
-    getConnection(id: string) {
+    // Add your connection management methods here
+    public addConnection(id: string, connection: RealTimeConnection) {
+        this.connections.set(id, connection);
+    }
+
+    public removeConnection(id: string) {
+        this.connections.delete(id);
+    }
+
+    public getConnection(id: string) {
         return this.connections.get(id);
     }
 
-    hasConnection(id: string) {
-        return this.connections.has(id);
+    public getAllConnections() {
+        return Array.from(this.connections.values());
     }
 }

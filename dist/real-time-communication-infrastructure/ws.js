@@ -6,35 +6,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.configureWebSocket = configureWebSocket;
 const ws_1 = __importDefault(require("ws"));
 const connections_registry_1 = require("../connections-registry");
+const real_time_connection_1 = require("../real-time-connection");
+const websocket_transport_1 = require("../transport/websocket-transport");
 function configureWebSocket(server) {
     // WebSocket connection handler
     const wss = new ws_1.default.Server({ server });
     const registry = connections_registry_1.ConnectionsRegistry.getInstance();
     wss.on("connection", (ws) => {
         console.log("WebSocket client connected");
-        registry.addConnection('user1', ws);
-        // Send welcome message
-        const welcomeMessage = {
-            type: "system",
-            content: "Connected via WebSocket",
-            timestamp: new Date().toISOString(),
-        };
-        ws.send(JSON.stringify(welcomeMessage));
-        // Send existing messages
-        messages.forEach((msg) => {
-            ws.send(JSON.stringify(msg));
-        });
+        const connection = real_time_connection_1.RealTimeConnectionFactory.createConnection(new websocket_transport_1.WebSocketTransport(ws));
+        registry.addConnection(connection.id, connection);
+        ws.send(JSON.stringify({ eventName: "welcome", data: "Connected via WebSocket" }));
         // Handle incoming messages
         ws.on("message", (data) => {
             try {
                 const message = JSON.parse(data.toString());
-                message.timestamp = new Date().toISOString();
-                messages.push(message);
                 // Broadcast to all WebSocket clients
-                wss.clients.forEach((client) => {
-                    if (client !== ws && client.readyState === ws_1.default.OPEN) {
-                        client.send(JSON.stringify(message));
-                    }
+                registry.getAllConnections().forEach((connection) => {
+                    connection.sendMessage(message);
                 });
             }
             catch (error) {

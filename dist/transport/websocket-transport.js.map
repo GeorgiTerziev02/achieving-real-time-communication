@@ -1,1 +1,1 @@
-{"version":3,"file":"websocket-transport.js","sourceRoot":"","sources":["../../src/transport/websocket-transport.ts"],"names":[],"mappings":";;;AAEA,MAAa,kBAAkB;CAE9B;AAFD,gDAEC"}
+{"version":3,"file":"websocket-transport.js","sourceRoot":"","sources":["../../src/transport/websocket-transport.ts"],"names":[],"mappings":";;;AAIA,MAAa,kBAAkB;IAC3B,YAAoB,EAAa;QAAb,OAAE,GAAF,EAAE,CAAW;IAAI,CAAC;IAE/B,IAAI,CAAC,OAAgB;QACxB,IAAI,CAAC,EAAE,CAAC,IAAI,CAAC,IAAI,CAAC,SAAS,CAAC,OAAO,CAAC,CAAC,CAAC;IAC1C,CAAC;CAEJ;AAPD,gDAOC"}

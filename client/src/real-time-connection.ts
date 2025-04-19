@@ -13,11 +13,11 @@ export class RealTimeConnection {
 	private intentionalClose = false;
 
 	constructor(private transport: ITransport) {
-		this.transport.onreceive((data: EventMessage) => {
-			if (this.eventsToHandlers.has(data.eventName)) {
+		this.transport.onreceive((eventMessage: EventMessage) => {
+			if (this.eventsToHandlers.has(eventMessage.eventName)) {
 				this.eventsToHandlers
-					.get(data.eventName)
-					.forEach((handler: any) => handler(data));
+					.get(eventMessage.eventName)
+					.forEach((handler: any) => handler(eventMessage.data));
 			}
 		});
 
