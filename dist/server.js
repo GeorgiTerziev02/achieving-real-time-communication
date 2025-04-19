@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
-const ws_1 = __importDefault(require("ws"));
+const ws_1 = require("./infrastructure/ws");
 // Initialize Express app and WebSocket server
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
-const wss = new ws_1.default.Server({ server });
+(0, ws_1.configureWebSocket)(server);
 // Store messages and clients
 const messages = [];
 const clients = new Set();
@@ -19,44 +19,6 @@ app.use(express_1.default.json());
 app.get('/negotiate', (req, res) => {
     res.json({
         supportedTransports: ['webSockets', 'longPolling', 'shortPolling', 'serverSentEvents']
-    });
-});
-// WebSocket connection handler
-wss.on('connection', (ws) => {
-    console.log('WebSocket client connected');
-    clients.add(ws);
-    // Send welcome message
-    const welcomeMessage = {
-        type: 'system',
-        content: 'Connected via WebSocket',
-        timestamp: new Date().toISOString()
-    };
-    ws.send(JSON.stringify(welcomeMessage));
-    // Send existing messages
-    messages.forEach(msg => {
-        ws.send(JSON.stringify(msg));
-    });
-    // Handle incoming messages
-    ws.on('message', (data) => {
-        try {
-            const message = JSON.parse(data.toString());
-            message.timestamp = new Date().toISOString();
-            messages.push(message);
-            // Broadcast to all WebSocket clients
-            wss.clients.forEach(client => {
-                if (client !== ws && client.readyState === ws_1.default.OPEN) {
-                    client.send(JSON.stringify(message));
-                }
-            });
-        }
-        catch (error) {
-            console.error('Error processing WebSocket message:', error);
-        }
-    });
-    // Handle client disconnection
-    ws.on('close', () => {
-        console.log('WebSocket client disconnected');
-        clients.delete(ws);
     });
 });
 // Server-Sent Events endpoint

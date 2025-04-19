@@ -35,7 +35,7 @@ export class LongPollingTransport {
         });
         return Promise.resolve();
     }
-    send(data) {
+    send(eventName, data) {
         // event source is one directional
         // here can set a logic like sending normal http request to specific endpoint
         fetch("/api/realTime/longPolling/event", {
@@ -44,8 +44,8 @@ export class LongPollingTransport {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                eventName: "message",
-                data: "Hello from client"
+                eventName: eventName,
+                data: data
             })
         });
     }

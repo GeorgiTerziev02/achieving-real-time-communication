@@ -17,7 +17,7 @@ export class SSETransport {
         });
         return promise;
     }
-    send(data) {
+    send(eventName, data) {
         // event source is one directional
         // here can set a logic like sending normal http request to specific endpoint
         fetch("/api/realTime/sse/event", {
@@ -26,8 +26,8 @@ export class SSETransport {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                eventName: "message",
-                data: "Hello from client"
+                eventName: eventName,
+                data: data
             })
         });
     }

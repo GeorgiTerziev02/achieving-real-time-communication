@@ -30,8 +30,8 @@ export class WebSocketTransport {
         return promise;
     }
 
-    public send(data: any) {
-        this.socket.send(JSON.stringify(data));
+    public send(eventName: string, data: any) {
+        this.socket.send(JSON.stringify({ eventName, data }));
     }
 
     public stop() {

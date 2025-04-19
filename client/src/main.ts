@@ -4,8 +4,7 @@ import { ShortPollingTransport } from "./transports/short-polling.js";
 import { SSETransport } from "./transports/sse.js";
 import { WebSocketTransport } from "./transports/websocket.js";
 
-var transport = new WebSocketTransport();
-var realTimeConnection = new RealTimeConnection(transport);
+var realTimeConnection = new RealTimeConnection(new WebSocketTransport());
 
 realTimeConnection.start();
 
@@ -36,5 +35,14 @@ supportedTransports.forEach(({ buttonId, transportFactory }) => {
         realTimeConnection = new RealTimeConnection(transport);
         realTimeConnection.start();
 	});
+});
+
+
+
+const sendButton = document.getElementById('sendButton') as HTMLButtonElement;
+const messageInput = document.getElementById('messageInput') as HTMLInputElement;
+sendButton.addEventListener("click", () => {
+    realTimeConnection.send("chatMessage", messageInput.value);
+    messageInput.value = "";
 });
 

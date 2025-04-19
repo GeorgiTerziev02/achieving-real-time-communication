@@ -36,8 +36,8 @@ export class RealTimeConnection {
 		return this.transport.connect();
 	}
 
-	send(data: any) {
-		this.transport.send(data);
+	send(eventName: string, data: any) {
+		this.transport.send(eventName, data);
 	}
 
 	on(eventName: string, handler: any) {

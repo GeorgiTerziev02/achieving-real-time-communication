@@ -19,8 +19,8 @@ export class WebSocketTransport {
         });
         return promise;
     }
-    send(data) {
-        this.socket.send(JSON.stringify(data));
+    send(eventName, data) {
+        this.socket.send(JSON.stringify({ eventName, data }));
     }
     stop() {
         this.socket.close();

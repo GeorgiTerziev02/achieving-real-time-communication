@@ -25,8 +25,8 @@ export class ShortPollingTransport {
         return Promise.resolve();
     }
 
-    public send(data: any) {
-        		// event source is one directional
+    public send(eventName: string, data: any) {
+        // event source is one directional
 		// here can set a logic like sending normal http request to specific endpoint
 		fetch("/api/realTime/shortPolling/event", {
 			method: "POST",
@@ -34,8 +34,8 @@ export class ShortPollingTransport {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-				eventName: "message",
-				data: "Hello from client"
+				eventName: eventName,
+				data: data
 			})
 		});
     }
