@@ -5,7 +5,7 @@ import { Message } from "../message";
 import { RealTimeConnectionFactory } from "../real-time-connection";
 import { WebSocketTransport } from "../transport/websocket-transport";
 
-export function configureWebSocket(server: http.Server) {
+export function configureWebSocket(app: Express.Application, server: http.Server) {
 	// WebSocket connection handler
 	const wss = new WebSocket.Server({ server });
 	const registry = ConnectionsRegistry.getInstance();

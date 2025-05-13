@@ -1,12 +1,12 @@
 import express, { Request, Response } from 'express';
 import http from 'http';
-import { configureWebSocket } from './real-time-communication-infrastructure/ws';
 import { ConnectionsRegistry } from './connections-registry';
+import { configureRealTimeCommunicationInfrastructure } from './real-time-communication-infrastructure/configure';
 
 // Initialize Express app and WebSocket server
 const app = express();
 const server = http.createServer(app);
-configureWebSocket(server);
+configureRealTimeCommunicationInfrastructure(['ws', 'sse', 'long-polling', 'short-polling'], app, server);
 
 // Middleware
 app.use(express.static('public'));

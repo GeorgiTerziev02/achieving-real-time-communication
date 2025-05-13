@@ -1,5 +1,3 @@
-// @ts-check
-
 import { ITransport, EventMessage } from "./transports/itransport";
 
 export class RealTimeConnection {

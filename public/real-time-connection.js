@@ -1,4 +1,3 @@
-// @ts-check
 export class RealTimeConnection {
     constructor(transport) {
         this.transport = transport;

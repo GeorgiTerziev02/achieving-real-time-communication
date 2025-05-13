@@ -37,4 +37,4 @@ function configureWebSocket(app, server) {
         });
     });
 }
-//# sourceMappingURL=ws.js.map
+//# sourceMappingURL=ws-configuration.js.map
