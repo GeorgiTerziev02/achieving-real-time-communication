@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SseTransport = void 0;
-class SseTransport {
+exports.SSETransport = void 0;
+class SSETransport {
     constructor(req, res) {
         this.req = req;
         this.res = res;
@@ -10,5 +10,5 @@ class SseTransport {
         this.res.write(`data: ${JSON.stringify(message)}\n\n`);
     }
 }
-exports.SseTransport = SseTransport;
+exports.SSETransport = SSETransport;
 //# sourceMappingURL=sse-transport.js.map

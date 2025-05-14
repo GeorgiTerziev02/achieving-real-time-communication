@@ -1,7 +1,8 @@
 import http from "http";
-import { Request, Response } from "express";
-import { Application, Router } from "express";
-
+import { Request, Response, Application, Router } from "express";
+import { ConnectionsRegistry } from "../connections-registry";
+import { RealTimeConnectionFactory } from "../real-time-connection";
+import { SSETransport } from "../transport/sse-transport";
 
 export function configureSSE(app: Application, server: http.Server) {
     const sseRouter = Router();
@@ -12,7 +13,7 @@ export function configureSSE(app: Application, server: http.Server) {
 
         const connectionsRegistry = ConnectionsRegistry.getInstance();
         const connection = RealTimeConnectionFactory.createConnection(new SSETransport(req, res));
-        connectionsRegistry.addConnection()
+        connectionsRegistry.addConnection("some id", connection);
 
         // Simulate sending updates from the server
         let counter = 0;
