@@ -30,7 +30,7 @@ export class SSETransport implements ITransport {
 	public send(eventName: string, data: any) {
 		// event source is one directional
 		// here can set a logic like sending normal http request to specific endpoint
-		fetch("/api/realTime/sse/event", {
+		fetch("/api/realTime/sse", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json"

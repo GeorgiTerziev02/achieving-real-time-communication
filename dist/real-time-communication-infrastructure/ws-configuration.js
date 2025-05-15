@@ -16,24 +16,17 @@ function configureWebSocket(app, server) {
         console.log("WebSocket client connected");
         const connection = real_time_connection_1.RealTimeConnectionFactory.createConnection(new websocket_transport_1.WebSocketTransport(ws));
         registry.addConnection(connection.id, connection);
-        ws.send(JSON.stringify({ eventName: "welcome", data: "Connected via WebSocket" }));
-        // Handle incoming messages
         ws.on("message", (data) => {
-            try {
-                const message = JSON.parse(data.toString());
-                // Broadcast to all WebSocket clients
-                registry.getAllConnections().forEach((connection) => {
-                    connection.sendMessage(message);
-                });
-            }
-            catch (error) {
-                console.error("Error processing WebSocket message:", error);
-            }
+            const message = JSON.parse(data.toString());
+            // here you should register all the events that the server listens to
+            registry.getAllConnections().forEach((conn) => {
+                conn.sendMessage(message);
+            });
         });
         // Handle client disconnection
         ws.on("close", () => {
             console.log("WebSocket client disconnected");
-            registry.removeConnection('user1');
+            registry.removeConnection("user1");
         });
     });
 }

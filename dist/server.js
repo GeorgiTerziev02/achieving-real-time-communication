@@ -7,13 +7,15 @@ const express_1 = __importDefault(require("express"));
 const http_1 = __importDefault(require("http"));
 const connections_registry_1 = require("./connections-registry");
 const configure_1 = require("./real-time-communication-infrastructure/configure");
+const body_parser_1 = __importDefault(require("body-parser"));
 // Initialize Express app and WebSocket server
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
-(0, configure_1.configureRealTimeCommunicationInfrastructure)(['ws', 'sse', 'long-polling', 'short-polling'], app, server);
 // Middleware
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+(0, configure_1.configureRealTimeCommunicationInfrastructure)(['ws', 'sse', 'long-polling', 'short-polling'], app, server);
 app.get('/negotiate', (req, res) => {
     res.json({
         supportedTransports: ['webSockets', 'longPolling', 'shortPolling', 'serverSentEvents']

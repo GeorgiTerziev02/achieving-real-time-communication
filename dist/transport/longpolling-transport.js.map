@@ -1,1 +1,1 @@
-{"version":3,"file":"longpolling-transport.js","sourceRoot":"","sources":["../../src/transport/longpolling-transport.ts"],"names":[],"mappings":";;;AAGA,MAAa,oBAAoB;IAEtB,IAAI,CAAC,OAAgB;QACxB,MAAM,IAAI,KAAK,CAAC,yBAAyB,CAAC,CAAC;IAC/C,CAAC;CAEJ;AAND,oDAMC"}
+{"version":3,"file":"longpolling-transport.js","sourceRoot":"","sources":["../../src/transport/longpolling-transport.ts"],"names":[],"mappings":";;;AAGA,MAAa,oBAAoB;IACtB,IAAI,CAAC,OAAgB;QACxB,MAAM,IAAI,KAAK,CAAC,yBAAyB,CAAC,CAAC;IAC/C,CAAC;CACJ;AAJD,oDAIC"}

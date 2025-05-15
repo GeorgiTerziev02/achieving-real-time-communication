@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SSETransport = void 0;
 class SSETransport {
-    constructor(req, res) {
-        this.req = req;
+    constructor(res) {
         this.res = res;
     }
     send(message) {

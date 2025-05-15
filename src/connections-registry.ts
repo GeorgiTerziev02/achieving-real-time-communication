@@ -1,6 +1,8 @@
 import { RealTimeConnection } from "./real-time-connection";
 
-// Should support grouping
+// usually has mapping connectionId -> connection
+// Should support grouping -> some connections can be grouped
+// cool thing to keep map userId -> connectionId map so you will be able to find connection by userId
 export class ConnectionsRegistry {
     private static instance: ConnectionsRegistry | null = null;
     private connections: Map<string, RealTimeConnection>;

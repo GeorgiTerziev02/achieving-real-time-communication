@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectionsRegistry = void 0;
-// Should support grouping
+// usually has mapping connectionId -> connection
+// Should support grouping -> some connections can be grouped
+// cool thing to keep map userId -> connectionId map so you will be able to find connection by userId
 class ConnectionsRegistry {
     constructor() {
         this.connections = new Map();

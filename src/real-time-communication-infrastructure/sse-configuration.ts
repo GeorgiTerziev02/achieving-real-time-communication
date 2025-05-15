@@ -12,27 +12,27 @@ export function configureSSE(app: Application, server: http.Server) {
         res.setHeader('Connection', 'keep-alive');
 
         const connectionsRegistry = ConnectionsRegistry.getInstance();
-        const connection = RealTimeConnectionFactory.createConnection(new SSETransport(req, res));
-        connectionsRegistry.addConnection("some id", connection);
-
-        // Simulate sending updates from the server
-        let counter = 0;
-        const intervalId = setInterval(() => {
-            counter++;
-            // Write the event stream format
-            res.write(
-                `data: ${JSON.stringify({
-                    eventName: "chatMessage",
-                    data: "test",
-                })}\n\n`
-            );
-        }, 5000);
+        const connection = RealTimeConnectionFactory.createConnection(new SSETransport(res));
+        connectionsRegistry.addConnection(connection.id, connection);
 
         // Clean up the interval when the client disconnects
         req.on('close', () => {
-            clearInterval(intervalId);
+            res.end();
+            connectionsRegistry.removeConnection(connection.id);
         });
     });
+
+    sseRouter.post('/api/realTime/sse', (req: Request, res: Response) => {
+        const connectionsRegistry = ConnectionsRegistry.getInstance();
+        console.log(req.body);
+        connectionsRegistry.getAllConnections().forEach((conn) => {
+            conn.sendMessage(req.body);
+        });
+        
+        res.status(200).send();
+    });
+
+
 
     app.use(sseRouter);
 }
