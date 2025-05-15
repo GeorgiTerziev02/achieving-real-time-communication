@@ -3,6 +3,8 @@ import { ITransport } from './transport/itransport';
 import { Message } from './message';
 
 export class RealTimeConnection {
+    // What is the special purpose of this id?
+    // signalr for example ties it to user not to request or tcp connection
     private _id: string = uuidv4();
 
     public get id() {

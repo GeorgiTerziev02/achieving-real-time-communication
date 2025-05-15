@@ -15,10 +15,10 @@ const server = http_1.default.createServer(app);
 app.use(express_1.default.static('public'));
 app.use(express_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-(0, configure_1.configureRealTimeCommunicationInfrastructure)(['ws', 'sse', 'long-polling', 'short-polling'], app, server);
+(0, configure_1.configureRealTimeCommunicationInfrastructure)(['ws', 'sse', 'long-polling'], app, server);
 app.get('/negotiate', (req, res) => {
     res.json({
-        supportedTransports: ['webSockets', 'longPolling', 'shortPolling', 'serverSentEvents']
+        supportedTransports: ['webSockets', 'longPolling', 'serverSentEvents']
     });
 });
 const connectionsRegistry = connections_registry_1.ConnectionsRegistry.getInstance();

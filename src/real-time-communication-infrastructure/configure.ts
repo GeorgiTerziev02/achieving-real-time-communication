@@ -2,16 +2,14 @@ import { configureWebSocket } from "./ws-configuration";
 import { configureSSE } from "./sse-configuration";
 import http from "http";
 import { Application } from "express";
+import { configureLongPolling } from "./longPolling-configuration";
 
-export type TransportType = "ws" | "sse" | "long-polling" | "short-polling";
+export type TransportType = "ws" | "sse" | "long-polling";
 
 const transportsToConfigure = {
     ws: configureWebSocket,
     sse: configureSSE,
-    // TODO: Implement Long Polling
-    "long-polling": () => {},
-    // TODO: Implement Short Polling
-    "short-polling": () => {}
+    "long-polling": configureLongPolling,
 };
 
 export function configureRealTimeCommunicationInfrastructure(transportTypes: TransportType[], app: Application, server: http.Server) {

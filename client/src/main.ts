@@ -1,6 +1,5 @@
 import { RealTimeConnection } from "./real-time-connection.js";
 import { LongPollingTransport } from "./transports/long-polling.js";
-import { ShortPollingTransport } from "./transports/short-polling.js";
 import { SSETransport } from "./transports/sse.js";
 import { WebSocketTransport } from "./transports/websocket.js";
 
@@ -21,10 +20,6 @@ const supportedTransports = [
         buttonId: "longPollButton",
         transportFactory: () => new LongPollingTransport()
     },
-    {
-        buttonId: "shortPollButton",
-        transportFactory: () => new ShortPollingTransport()
-    }
 ];
 
 function registerEvents() {
@@ -45,6 +40,7 @@ supportedTransports.forEach(({ buttonId, transportFactory }) => {
         document.getElementById("currentTransport")!.innerHTML = `${buttonId}`;
         currentButtonId = buttonId;
 		realTimeConnection.stop();
+        
         const transport = transportFactory();
         realTimeConnection = new RealTimeConnection(transport);
         realTimeConnection.start();

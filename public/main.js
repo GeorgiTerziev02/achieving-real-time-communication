@@ -1,6 +1,5 @@
 import { RealTimeConnection } from "./real-time-connection.js";
 import { LongPollingTransport } from "./transports/long-polling.js";
-import { ShortPollingTransport } from "./transports/short-polling.js";
 import { SSETransport } from "./transports/sse.js";
 import { WebSocketTransport } from "./transports/websocket.js";
 var realTimeConnection = new RealTimeConnection(new WebSocketTransport());
@@ -18,10 +17,6 @@ const supportedTransports = [
         buttonId: "longPollButton",
         transportFactory: () => new LongPollingTransport()
     },
-    {
-        buttonId: "shortPollButton",
-        transportFactory: () => new ShortPollingTransport()
-    }
 ];
 function registerEvents() {
     realTimeConnection.on("chatMessage", (message) => {

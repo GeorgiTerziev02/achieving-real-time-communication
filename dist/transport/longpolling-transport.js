@@ -2,8 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LongPollingTransport = void 0;
 class LongPollingTransport {
+    constructor(res) {
+        this.res = res;
+    }
     send(message) {
-        throw new Error("Method not implemented.");
+        this.res.json(message);
     }
 }
 exports.LongPollingTransport = LongPollingTransport;

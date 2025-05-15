@@ -8,6 +8,8 @@ class RealTimeConnection {
     }
     constructor(transport) {
         this.transport = transport;
+        // What is the special purpose of this id?
+        // signalr for example ties it to user not to request or tcp connection
         this._id = (0, uuid_1.v4)();
     }
     sendMessage(message) {

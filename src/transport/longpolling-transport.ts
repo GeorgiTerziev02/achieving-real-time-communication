@@ -1,8 +1,11 @@
 import { ITransport } from "./itransport";
 import { Message } from "../message";
+import { Response } from "express";
 
 export class LongPollingTransport implements ITransport {
+    constructor(private res: Response) { }
+
     public send(message: Message): void {
-        throw new Error("Method not implemented.");
+        this.res.json(message);
     }
 }

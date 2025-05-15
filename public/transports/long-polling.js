@@ -33,7 +33,7 @@ export class LongPollingTransport {
     send(eventName, data) {
         // event source is one directional
         // here can set a logic like sending normal http request to specific endpoint
-        fetch("/api/realTime/longPolling/event", {
+        fetch("/api/realTime/longPolling", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
