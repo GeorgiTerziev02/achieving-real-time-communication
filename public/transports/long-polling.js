@@ -26,13 +26,8 @@ export class LongPollingTransport {
                 this.connect();
             }, 5000);
         })
-            .catch((err) => {
-            // something unexpected happened
-            // => retry mechanism
-            setTimeout(() => {
-                this.connect();
-            }, 5000);
-        });
+            // what should happen on error? disconnect?
+            .catch(console.error);
         return Promise.resolve();
     }
     send(eventName, data) {
@@ -53,14 +48,6 @@ export class LongPollingTransport {
         // not the best way
         // bettter play around with promise.race/promise.any
         this.stopRequested = true;
-    }
-    onreceive(handler) {
-        this.onReceiveHandler = handler;
-    }
-    onclose(handler) {
-        // is there such moment of closing?
-        // probably if we predefine some answer from the server
-        this.onCloseHandler = handler;
     }
 }
 //# sourceMappingURL=long-polling.js.map

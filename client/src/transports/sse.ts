@@ -1,20 +1,20 @@
-import { EventHandler } from './itransport.js';
+import { EventHandler, ITransport } from './itransport.js';
 
-export class SSETransport {
+export class SSETransport implements ITransport {
 	private eventSource!: EventSource;
-	private onReceiveHandler!: EventHandler;
-	private onCloseHandler!: EventHandler;
+	public onReceiveHandler!: EventHandler;
+	public onCloseHandler!: EventHandler;
 
-	public connect() {
+	public connect(): Promise<void> {
 		this.eventSource = new EventSource("/api/realTime/sse");
 
 		this.eventSource.onmessage = (event) => {
 			this.onReceiveHandler({ eventName: "message", data: event.data });
 		}
 
-		const promise = new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 			this.eventSource.onopen = (event) => {
-				resolve(event);
+				resolve();
 			};
 
 			this.eventSource.onmessage = (event) => {
@@ -25,8 +25,6 @@ export class SSETransport {
 				console.error("EventSource failed:", event);
 			};
 		});
-		
-		return promise;
 	}
 
 	public send(eventName: string, data: any) {
@@ -46,13 +44,5 @@ export class SSETransport {
 
 	public stop() {
 		this.eventSource.close();
-	}
-
-	public onreceive(handler: EventHandler) {
-		this.onReceiveHandler = handler;
-	}
-
-	public onclose(handler: EventHandler) {
-		this.onCloseHandler = handler;
 	}
 } 

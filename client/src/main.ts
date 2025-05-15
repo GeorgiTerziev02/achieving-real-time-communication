@@ -34,9 +34,16 @@ function registerEvents() {
     });
 }
 
+
+let currentButtonId = 'wsButton';
+
 supportedTransports.forEach(({ buttonId, transportFactory }) => {
 	const button = document.getElementById(buttonId);
 	button!.addEventListener("click", () => {
+        document.getElementById(currentButtonId)!.classList.remove("active");
+        button!.classList.add("active");
+        document.getElementById("currentTransport")!.innerHTML = `${buttonId}`;
+        currentButtonId = buttonId;
 		realTimeConnection.stop();
         const transport = transportFactory();
         realTimeConnection = new RealTimeConnection(transport);

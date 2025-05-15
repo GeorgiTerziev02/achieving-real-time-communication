@@ -1,20 +1,20 @@
-import { EventHandler } from './itransport.js';
+import { EventHandler, ITransport } from './itransport.js';
 
 function getWsUrl() {
 	const domain = window.location.hostname;
 	return domain === "localhost" ? `ws://${domain}:3000` : `wss://${domain}`;
 }
-export class WebSocketTransport {
+export class WebSocketTransport implements ITransport {
     private socket!: WebSocket;
-    private onReceiveHandler!: EventHandler;
-    private onCloseHandler!: EventHandler;
+    public onReceiveHandler!: EventHandler;
+    public onCloseHandler!: EventHandler;
 
-    public connect() {
+    public connect(): Promise<void> {
         this.socket = new WebSocket(getWsUrl());
 
-        const promise = new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.socket.addEventListener("open", (_) => {
-                resolve(_);
+                resolve();
             });
 
             this.socket.addEventListener("message", (_) => {
@@ -26,8 +26,6 @@ export class WebSocketTransport {
                 reject(_);
             })
         });
-
-        return promise;
     }
 
     public send(eventName: string, data: any) {
@@ -36,13 +34,5 @@ export class WebSocketTransport {
 
     public stop() {
         this.socket.close();
-    }
-
-    public onreceive(handler: EventHandler) {
-        this.onReceiveHandler = handler;
-    }
-
-    public onclose(handler: EventHandler) {
-        this.onCloseHandler = handler;
     }
 } 

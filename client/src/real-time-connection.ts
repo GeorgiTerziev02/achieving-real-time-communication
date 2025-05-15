@@ -1,25 +1,33 @@
 import { ITransport, EventMessage } from "./transports/itransport";
 
+// instance of this class should be created using builder pattern
 export class RealTimeConnection {
 	// also manages:
 	// - retry mechanisms
-	// - ping pong - keep alive connection
+	// - ping pong
+	// 	 - keep alive connection
+	// 	 - timeout interval
 	// - operation logging
 	// - protocol => json, binary, custom
+	//    - kak da se obrabotvat dannite
 
 	private eventsToHandlers = new Map();
 	private intentionalClose = false;
 
 	constructor(private transport: ITransport) {
-		this.transport.onreceive((eventMessage: EventMessage) => {
+		this.transport.onReceiveHandler = (eventMessage: EventMessage) => {
 			if (this.eventsToHandlers.has(eventMessage.eventName)) {
 				this.eventsToHandlers
 					.get(eventMessage.eventName)
 					.forEach((handler: any) => handler(eventMessage.data));
 			}
-		});
+		};
 
-		this.transport.onclose(() => {
+		// Cases here:
+		// intentional close -> no need to do anything
+		// unexpected close -> restart connection
+		// -- there should be also some retry policy (callback) for when the next retry should be
+		this.transport.onCloseHandler = () => {
 			if (this.intentionalClose) {
 				return;
 			}
@@ -27,7 +35,7 @@ export class RealTimeConnection {
 			setTimeout(() => {
 				this.start();
 			}, 5000);
-		});
+		};
 	}
 
 	start() {
@@ -47,8 +55,14 @@ export class RealTimeConnection {
 	}
 
 	off(eventName: string, handler: any) {
-		if (this.eventsToHandlers.has(eventName)) {
-			this.eventsToHandlers.get(eventName).delete(handler);
+		if (!this.eventsToHandlers.has(eventName)) {
+			return;
+		}
+
+		const eventsSet = this.eventsToHandlers.get(eventName);
+		eventsSet.delete(handler);
+		if(eventsSet.size === 0) {
+			this.eventsToHandlers.delete(eventName);
 		}
 	}
 

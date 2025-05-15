@@ -3,8 +3,8 @@ import { EventHandler, ITransport } from './itransport.js';
 export class LongPollingTransport implements ITransport {
     private stopRequested = false;
 
-    private onReceiveHandler!: EventHandler;
-    private onCloseHandler!: EventHandler;
+    public onReceiveHandler!: EventHandler;
+    public onCloseHandler!: EventHandler;
 
     public connect() {
         fetch("/api/realTime/longPolling")
@@ -32,13 +32,8 @@ export class LongPollingTransport implements ITransport {
                     this.connect();
                 }, 5000);
             })
-            .catch((err) => {
-                // something unexpected happened
-                // => retry mechanism
-                setTimeout(() => {
-                    this.connect();
-                }, 5000);
-            });
+            // what should happen on error? disconnect?
+            .catch(console.error);
 
         return Promise.resolve();
     }
@@ -63,15 +58,4 @@ export class LongPollingTransport implements ITransport {
         // bettter play around with promise.race/promise.any
         this.stopRequested = true;
     }
-
-    public onreceive(handler: EventHandler) {
-        this.onReceiveHandler = handler;
-    }
-
-    public onclose(handler: EventHandler) {
-        // is there such moment of closing?
-        // probably if we predefine some answer from the server
-        this.onCloseHandler = handler;
-    }
-
 } 

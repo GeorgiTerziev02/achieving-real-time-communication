@@ -8,4 +8,5 @@ export class SSETransport implements ITransport {
         this.res.write(`data: ${JSON.stringify(message)}\n\n`);
     }
 
+
 }

@@ -4,9 +4,9 @@ export class SSETransport {
         this.eventSource.onmessage = (event) => {
             this.onReceiveHandler({ eventName: "message", data: event.data });
         };
-        const promise = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.eventSource.onopen = (event) => {
-                resolve(event);
+                resolve();
             };
             this.eventSource.onmessage = (event) => {
                 this.onReceiveHandler(JSON.parse(event.data));
@@ -15,7 +15,6 @@ export class SSETransport {
                 console.error("EventSource failed:", event);
             };
         });
-        return promise;
     }
     send(eventName, data) {
         // event source is one directional
@@ -33,12 +32,6 @@ export class SSETransport {
     }
     stop() {
         this.eventSource.close();
-    }
-    onreceive(handler) {
-        this.onReceiveHandler = handler;
-    }
-    onclose(handler) {
-        this.onCloseHandler = handler;
     }
 }
 //# sourceMappingURL=sse.js.map

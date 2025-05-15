@@ -12,6 +12,7 @@ export class ShortPollingTransport {
                 .then(data => {
                 this.onReceiveHandler(data);
             })
+                // what should happen on error? disconnect?
                 .catch(console.error);
         }, 1000);
         return Promise.resolve();
@@ -24,22 +25,11 @@ export class ShortPollingTransport {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                eventName: eventName,
-                data: data
-            })
+            body: JSON.stringify({ eventName, data })
         });
     }
     stop() {
         clearInterval(this.intervalId);
-    }
-    onreceive(handler) {
-        this.onReceiveHandler = handler;
-    }
-    onclose(handler) {
-        // is there such moment of closing?
-        // probably if are wainting for some specific answer from the server
-        this.onCloseHandler = handler;
     }
 }
 //# sourceMappingURL=short-polling.js.map

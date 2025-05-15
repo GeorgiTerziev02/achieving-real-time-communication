@@ -1,10 +1,13 @@
-import { EventHandler } from './itransport.js';
+import { EventHandler, ITransport } from './itransport.js';
 
-export class ShortPollingTransport {
+export class ShortPollingTransport implements ITransport {
     private intervalId!: number;
 
-    private onReceiveHandler!: EventHandler;
-    private onCloseHandler!: EventHandler;
+    public onReceiveHandler!: EventHandler;
+    // is there such moment of closing?
+    // probably if are wainting for some specific answer from the server
+    // or the first error is asumed as closing
+    public onCloseHandler!: EventHandler;
 
     public connect() {
         this.intervalId = window.setInterval(() => {
@@ -19,6 +22,7 @@ export class ShortPollingTransport {
                 .then(data => {
                     this.onReceiveHandler(data);
                 })
+                // what should happen on error? disconnect?
                 .catch(console.error);
         }, 1000);
 
@@ -33,24 +37,11 @@ export class ShortPollingTransport {
 			headers: {
 				"Content-Type": "application/json"
 			},
-			body: JSON.stringify({
-				eventName: eventName,
-				data: data
-			})
+			body: JSON.stringify({ eventName, data })
 		});
     }
 
     public stop() {
         clearInterval(this.intervalId);
-    }
-
-    public onreceive(handler: EventHandler) {
-        this.onReceiveHandler = handler;
-    }
-
-    public onclose(handler: EventHandler) {
-        // is there such moment of closing?
-        // probably if are wainting for some specific answer from the server
-        this.onCloseHandler = handler;
     }
 } 
