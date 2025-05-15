@@ -2,7 +2,8 @@ import { ITransport, EventMessage } from "./transports/itransport";
 
 // instance of this class should be created using builder pattern
 export class RealTimeConnection {
-	// also manages:
+	// also should manage:
+	// - handshake!
 	// - retry mechanisms
 	// - ping pong
 	// 	 - keep alive connection
@@ -10,6 +11,8 @@ export class RealTimeConnection {
 	// - operation logging
 	// - protocol => json, binary, custom
 	//    - kak da se obrabotvat dannite
+	// - stateful reconnect
+	//   - reconnect with the same connectionId
 
 	private eventsToHandlers = new Map();
 	private intentionalClose = false;

@@ -2,7 +2,8 @@
 export class RealTimeConnection {
     constructor(transport) {
         this.transport = transport;
-        // also manages:
+        // also should manage:
+        // - handshake!
         // - retry mechanisms
         // - ping pong
         // 	 - keep alive connection
@@ -10,6 +11,8 @@ export class RealTimeConnection {
         // - operation logging
         // - protocol => json, binary, custom
         //    - kak da se obrabotvat dannite
+        // - stateful reconnect
+        //   - reconnect with the same connectionId
         this.eventsToHandlers = new Map();
         this.intentionalClose = false;
         this.transport.onReceiveHandler = (eventMessage) => {
