@@ -89,12 +89,12 @@ Note: try to always compare threaded vs event driven servers
   - cons
     - request timeout (browser stuff)
     - load
-    - not good for threaded server
+    - watch out with threaded server
 - Server-sent events
   - https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
   - one directional communication server to client
   - pros
-    - real time
+    - "one sided" real time
     - built in reconnect
   - cons
     - supports only text data - UTF8
@@ -102,11 +102,17 @@ Note: try to always compare threaded vs event driven servers
 - Web sockets
   - duplex
   - long living
-  - faster
   - pros
+    - realtime
+    - fast
+    - duplex
+    - long living
+    - in most general cases - it is simple
   - cons
     - again there is load and should watch out with threaded servers
     - might be blocked by proxies/firewall/custom network
+    - watch out with threaded server
+    - complexity can grow with the project
 
 ## Short polling
 ![image](https://github.com/user-attachments/assets/498f7903-fd30-4884-bf13-c84dd6b6b937)
