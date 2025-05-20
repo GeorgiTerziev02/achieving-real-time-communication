@@ -5,7 +5,7 @@
 
 System where you receive updates in real time. Usually, achieved with web sockets. For example, take a simple chat app with server and client.
 
-Note: We won't talk about WebRTC
+### What we won't talk about
 - WebRTC - technology for sharing real time video and voice (available in all browsers)
     - direct peer-to-peer communication (no server needed)
     - https://webrtc.org/
@@ -14,9 +14,15 @@ Note: We won't talk about WebRTC
     - https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Industry_use
     - https://jakelazaroff.com/words/an-interactive-intro-to-crdts/
 
-## Ways to achieve it
+## Internet Protocols
 
+What is a protocol?
 
+Some protocols:
+- Http -> http/https
+- WebSockets -> ws/wss
+
+## How to achieve the real time updates
 What we will discuss
 - Short polling
     - bih go polzval ako za da imam po-malko ednovremenni vruzki sus server-a
