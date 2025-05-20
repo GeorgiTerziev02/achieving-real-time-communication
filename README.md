@@ -84,12 +84,20 @@ Note: try to always compare threaded vs event driven servers
   - pros
     - "simple"
     - not much latency
+    - better for real time updates than short polling
   - cons
     - request timeout (browser stuff)
     - load
     - not good for threaded server
 - Server-sent events
 - Web sockets
+  - duplex
+  - long living
+  - faster
+  - pros
+  - cons
+    - again there is load and should watch out with threaded servers
+    - might be blocked by proxies/firewall/custom network
 
 ## Short polling
 ![image](https://github.com/user-attachments/assets/498f7903-fd30-4884-bf13-c84dd6b6b937)
