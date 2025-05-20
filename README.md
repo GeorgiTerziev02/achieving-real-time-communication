@@ -10,7 +10,7 @@ System where you receive updates in real time. Usually, achieved with web socket
     - direct peer-to-peer communication (no server needed)
     - https://webrtc.org/
     - https://en.wikipedia.org/wiki/WebRTC
-- CRDTs (Conflict free data structures) - having the same data replicated on several computers
+- CRDTs (Conflict-free replicated data structures) - having the same data replicated on several computers
     - https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Industry_use
     - https://jakelazaroff.com/words/an-interactive-intro-to-crdts/
 
@@ -49,7 +49,7 @@ Note: try to always compare threaded vs event driven servers
 - Event based
   - one main thread - the code is always executed by it
     - plus some more behind responsible for OS stuff like new data arrived by a tcp connection
-  - event loop
+  - event loop - (this is front end queue but concept is the same) https://www.youtube.com/watch?v=8aGhZQkoFbQ&t=31s&ab_channel=JSConf
   - node.js, python
   - node.js uses [libuv](https://libuv.org/)
   - you can still offload work to worked threads
@@ -149,12 +149,12 @@ Usually such library has two implementations client and server. What is supporte
 - every created connection can be customised for each of the properties above => use builder pattern 
 
 #### Client:
-- connection grouping
 - reconnect/retry connect mechanism
   - handle intentional and not intentional disconnects
 - stateful reconnect
 
 #### Server:
+- connection grouping
 - connection identifier (Guid)
 - does not have a userId to connection id out of the box
   - this can be achieved simply with a map, but is a normal map enough?
