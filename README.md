@@ -21,6 +21,7 @@ What is a protocol?
 Some protocols:
 - Http -> http/https
   - https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview
+  - one directional - client => server
 - WebSockets -> ws/wss
   - https://en.wikipedia.org/wiki/WebSocket
   - duplex
