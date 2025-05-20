@@ -1,22 +1,21 @@
 # Achieving real time communication examples
 
-## Content
-
-- Why real time systems?
-- Ways to achieve it
-- Protocols
-- WebSockets
-- Evoluciqta na kakavidata
-- Implement WebSocket Connection FE + BE
-
+  
 ## Real time systems
 
-Examples are everywhere.
+System where you receive updates in real time. Usually, achieved with web sockets. For example, take a simple chat app with server and client.
+
+Note: We won't talk about WebRTC
+- WebRTC - technology for sharing real time video and voice (available in all browsers)
+    - direct peer-to-peer communication (no server needed)
+    - https://webrtc.org/
+    - https://en.wikipedia.org/wiki/WebRTC
+- CRDTs (Conflict free data structures) - having the same data replicated on several computers
+    - https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Industry_use
+    - https://jakelazaroff.com/words/an-interactive-intro-to-crdts/
 
 ## Ways to achieve it
 
-Note: won't talk about WebRTC
-- WebRTC - technology for sharing real time video and voice
 
 What we will discuss
 - Short polling
