@@ -90,4 +90,10 @@ What we will discuss
         - spira i toka
 - lelq ti ginka si izmislq nqkuw specialen protocol
 
-## Implement full WebSocket connection
+## Implement Websocket communication
+In the given code implement the WebSocket transport (both on client and on the server).
+
+Docs of the js (client) web socket - https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+Docs of the js (server) web socket - https://www.npmjs.com/package/ws
+
+
