@@ -28,8 +28,7 @@ What we will discuss
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
     - pros:
       - less simultaneous connections to the server
-      - user is not tied to a single server
-     
+      - user is not tied to a single server 
     - cons:
       - load
       - latency
