@@ -81,6 +81,19 @@ Note: try to always compare threaded vs event driven servers
 - Server-sent events
 - Web sockets
 
+### Short polling
+![image](https://github.com/user-attachments/assets/498f7903-fd30-4884-bf13-c84dd6b6b937)
+
+### Long polling
+![image](https://github.com/user-attachments/assets/4d519037-909f-4fc4-9cd6-1ee8d4b5808a)
+
+### Server sent events
+![image](https://github.com/user-attachments/assets/fc4a9c82-6612-4432-9f2b-9cf3a5fa0db1)
+
+### Web socket
+![image](https://github.com/user-attachments/assets/f934e8c5-8d5f-4884-8896-c505e63a8e8f)
+
+
 ## What is hidden in a real time communication library 
 
 Usually such library has two implementations client and server. What is supported in such library:
