@@ -23,6 +23,9 @@ Some protocols:
 - WebSockets -> ws/wss
 
 ## How to achieve the real time updates
+
+Note: try to always compare threaded vs event driven servers
+
 What we will discuss
 - Short polling - repeating checks every X seconds.
     - Useful when instant updates aren't critical
