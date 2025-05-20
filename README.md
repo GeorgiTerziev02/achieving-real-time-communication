@@ -26,6 +26,8 @@ Some protocols:
 
 Note: try to always compare threaded vs event driven servers
 
+https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
+
 What we will discuss
 - Short polling - repeating checks every X seconds.
     - Useful when instant updates aren't critical
