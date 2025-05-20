@@ -85,7 +85,7 @@ Note: try to always compare threaded vs event driven servers
 
 Usually such library has two implementations client and server. What is supported in such library:
 
-**General (both supported by the client and server implementation of the library):**
+#### General (both supported by the client and server implementation of the library):
 - allowed transports and initial negotiation to decide the transport protocol between
   - on premise and cloud example
 - every send message is wrapped inside an object that has two props event name and data
@@ -99,13 +99,13 @@ Usually such library has two implementations client and server. What is supporte
 - operation logging
 - every created connection can be customised for each of the properties above => use builder pattern 
 
-**Client:**
+#### Client:
 - connection grouping
 - reconnect/retry connect mechanism
   - handle intentional and not intentional disconnects
 - stateful reconnect
 
-**Server:**
+#### Server:
 - connection identifier (Guid)
 - does not have a userId to connection id out of the box
   - this can be achieved simply with a map, but is a normal map enough?
@@ -113,6 +113,34 @@ Usually such library has two implementations client and server. What is supporte
 - handle disconnection
 - handle event data (name)
 - registers the needed middleware on the connection layer of the server
+
+### Example API
+
+```ts
+export type EventMessage = {
+  eventName: string;
+  data: any
+};
+
+export type EventHandler = (data: any) => void;
+
+export interface ITransport {
+	connect(): Promise<void>;
+	send(eventName: string, data: any): void;
+	stop(): void;
+  onReceiveHandler: EventHandler
+	// in this case data is error
+  onCloseHandler: EventHandler;
+}
+
+export class RealTimeConnection {
+  start(): void;
+  send(eventName: string, data: any);
+  on(eventName: string, handler: any);
+  off(eventName: string, handler: any);
+  stop(); // intentional disconnect
+}
+```
 
 ### Example libs
 - js - https://socket.io/
