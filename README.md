@@ -24,7 +24,7 @@ Some protocols:
 
 ## How to achieve the real time updates
 
-### Servers
+### What type of servers we have?
 Note: try to always compare threaded vs event driven servers
 
 - Threaded server
