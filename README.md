@@ -24,7 +24,7 @@ Some protocols:
 - WebSockets -> ws/wss
   - https://en.wikipedia.org/wiki/WebSocket
   - duplex
-  - 2008 first version, supported in chrome since 2009
+  - 2008 first version, supported in chrome since 2009, standardized 2011
 
 ## How to achieve the real time updates
 
