@@ -24,7 +24,8 @@ Some protocols:
 
 ## How to achieve the real time updates
 What we will discuss
-- Short polling
+- Short polling - repeating checks every X seconds.
+    - Useful when instant updates aren't critical
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
     - pros:
       - less simultaneous connections to the server
