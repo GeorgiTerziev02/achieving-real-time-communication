@@ -31,13 +31,12 @@ Some protocols:
     - this is done because most of the servers/proxies/firewalls/load ballancers understand http
     - https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/101
 
-## How to achieve the real time updates
-
-### What type of servers we have?
+##  What type of servers do we have?
 Note: try to always compare threaded vs event driven servers
 
 - Threaded server
   - thread per connection
+  - java, c#
   - pros
     - **can run in parallel**
     - simpler "sync" like code - [example](https://github.com/GeorgiTerziev02/My-Social-Media-Api/blob/master/MySocialMedia.Server/Features/Identity/IdentityController.cs)
@@ -62,32 +61,119 @@ Note: try to always compare threaded vs event driven servers
     - try not to block the main thread
     - more complex programming model
 
-What we will discuss
+### Threaded
+![image](https://github.com/user-attachments/assets/ee63eb60-9cf0-4f4f-8b98-f575572a3770)
+### Event-based
+![image](https://github.com/user-attachments/assets/dc41d3ce-0985-487f-8055-3477beb02f64)
+
+
+## How can we achieve the real time communication
 - Short polling - repeating checks every X seconds.
     - Useful when instant updates aren't critical
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
+      - try searching - "Top 50 YouTube Live Sub Count" and view the dev tools tab of the browser
     - joke example: https://www.reddit.com/r/Jokes/comments/evrd45/a_bunny_walks_into_the_bakery/
     - pros:
-      - simple
+      - "simple"
       - less simultaneous connections to the server
       - user is not tied to a single server 
     - cons:
       - load
       - latency
 - Long polling
+  - pros
+    - "simple"
+    - not much latency
+  - cons
+    - request timeout (browser stuff)
+    - load
+    - not good for threaded server
 - Server-sent events
 - Web sockets
 
-## Evoluciqta na kakavidata
+## Short polling
+![image](https://github.com/user-attachments/assets/498f7903-fd30-4884-bf13-c84dd6b6b937)
 
-- Shefa iska chat systema
-- na lelq ti ginka i spira toka za 10 sekundi
-    - reconnect
-        - retry
-    - a kak da razberem, 4e e disconnected
-        - ping pong
-        - zatwarq browser
-        - spira i toka
-- lelq ti ginka si izmislq nqkuw specialen protocol
+## Long polling
+![image](https://github.com/user-attachments/assets/4d519037-909f-4fc4-9cd6-1ee8d4b5808a)
 
-## Implement full WebSocket connection
+## Server sent events
+![image](https://github.com/user-attachments/assets/fc4a9c82-6612-4432-9f2b-9cf3a5fa0db1)
+
+## Web socket
+![image](https://github.com/user-attachments/assets/f934e8c5-8d5f-4884-8896-c505e63a8e8f)
+
+
+## What is hidden in a real time communication library 
+
+Usually such library has two implementations client and server. What is supported in such library:
+
+#### General (both supported by the client and server implementation of the library):
+- allowed transports and initial negotiation to decide the transport protocol between
+  - on premise and cloud example
+- every send message is wrapped inside an object that has two props event name and data
+- ping pong pattern
+  - to decide whether to keep the connection alive
+  - keep alive ping and timeout interval
+- message protocols
+  - json
+  - binary
+  - custom
+- operation logging
+- every created connection can be customised for each of the properties above => use builder pattern 
+
+#### Client:
+- connection grouping
+- reconnect/retry connect mechanism
+  - handle intentional and not intentional disconnects
+- stateful reconnect
+
+#### Server:
+- connection identifier (Guid)
+- does not have a userId to connection id out of the box
+  - this can be achieved simply with a map, but is a normal map enough?
+- handle connection
+- handle disconnection
+- handle event data (name)
+- registers the needed middleware on the connection layer of the server
+
+### Example API
+
+```ts
+export type EventMessage = {
+  eventName: string;
+  data: any
+};
+
+export type EventHandler = (data: any) => void;
+
+export interface ITransport {
+  connect(): Promise<void>;
+  send(eventName: string, data: any): void;
+  stop(): void;
+  onReceiveHandler: EventHandler
+  // in this case data is error
+  onCloseHandler: EventHandler;
+}
+
+export class RealTimeConnection {
+  start(): void;
+  send(eventName: string, data: any);
+  on(eventName: string, handler: any);
+  off(eventName: string, handler: any);
+  stop(); // intentional disconnect
+}
+```
+
+### Example libs
+- js - https://socket.io/
+- .net - https://dotnet.microsoft.com/en-us/apps/aspnet/signalr
+
+## Implement Websocket communication
+In the given code implement the WebSocket transport (both on client and on the server).
+
+Docs of the js (client) web socket - https://developer.mozilla.org/en-US/docs/Web/API/WebSocket
+
+Docs of the js (server) web socket - https://www.npmjs.com/package/ws
+
+
