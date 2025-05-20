@@ -26,7 +26,7 @@ function configureWebSocket(app, server) {
         // Handle client disconnection
         ws.on("close", () => {
             console.log("WebSocket client disconnected");
-            registry.removeConnection("user1");
+            registry.removeConnection(connection.id);
         });
     });
 }
