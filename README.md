@@ -28,11 +28,14 @@ Some protocols:
 Note: try to always compare threaded vs event driven servers
 
 - Threaded server
-  - thread per connection
-  - more memory
-  - can run in parallel
-  - simpler "sync" like code - [example](https://github.com/GeorgiTerziev02/My-Social-Media-Api/blob/master/MySocialMedia.Server/Features/Identity/IdentityController.cs)
-  - think about thread safety
+  - pros
+    - thread per connection
+    - can run in parallel
+    - simpler "sync" like code - [example](https://github.com/GeorgiTerziev02/My-Social-Media-Api/blob/master/MySocialMedia.Server/Features/Identity/IdentityController.cs)
+  - cons
+    - more memory
+    - context switching
+    - think about thread safety
 - Event based
   - one main thread - the code is always executed by it
     - plus some more behind responsible for OS stuff like new data arrived by a tcp connection
