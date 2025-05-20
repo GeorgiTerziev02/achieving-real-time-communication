@@ -156,6 +156,8 @@ Usually such library has two implementations client and server. What is supporte
 
 ### Example API
 
+Client
+
 ```ts
 export type EventMessage = {
   eventName: string;
@@ -179,6 +181,39 @@ export class RealTimeConnection {
   on(eventName: string, handler: any);
   off(eventName: string, handler: any);
   stop(); // intentional disconnect
+}
+```
+
+Server
+```ts
+
+export interface ITransport {
+    send(message: Message): void;
+}
+
+export class RealTimeConnection {
+    private _id: string = uuidv4();
+
+    public get id() {
+        return this._id;
+    }
+
+    constructor(private transport: ITransport) { }
+
+    public sendMessage(message: Message) {
+        this.transport.send(message);
+    }
+}
+
+// should be singleton
+// should also support grouping of connections
+export class ConnectionsRegistry {
+    private static instance: ConnectionsRegistry | null = null;
+    private connections: Map<string, RealTimeConnection>;
+
+    private constructor() {
+        this.connections = new Map();
+    }
 }
 ```
 
