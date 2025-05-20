@@ -38,6 +38,7 @@ Note: try to always compare threaded vs event driven servers
 
 - Threaded server
   - thread per connection
+  - java, c#
   - pros
     - **can run in parallel**
     - simpler "sync" like code - [example](https://github.com/GeorgiTerziev02/My-Social-Media-Api/blob/master/MySocialMedia.Server/Features/Identity/IdentityController.cs)
