@@ -68,6 +68,7 @@ Note: try to always compare threaded vs event driven servers
 - Short polling - repeating checks every X seconds.
     - Useful when instant updates aren't critical
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
+      - try searching - "Top 50 YouTube Live Sub Count" and view the dev tools tab of the browser
     - joke example: https://www.reddit.com/r/Jokes/comments/evrd45/a_bunny_walks_into_the_bakery/
     - pros:
       - simple
