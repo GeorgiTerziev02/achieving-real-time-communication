@@ -25,8 +25,9 @@ Some protocols:
 ## How to achieve the real time updates
 What we will discuss
 - Short polling
-    - bih go polzval ako za da imam po-malko ednovremenni vruzki sus server-a
-        - primer: youtube live chat na live stream polzva ss - kwo 6te6e da stane?
+    - less simultaneous connections to the server
+    - user is not tied to a single server
+    - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
 - Long polling
 - Server-sent events
 - Web sockets
