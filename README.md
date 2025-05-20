@@ -47,6 +47,8 @@ Note: try to always compare threaded vs event driven servers
   - you can still offload work to worked threads
   - more complex programming model
   - https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
+  - can handle more connections - scalable
+  - low memory
 
 What we will discuss
 - Short polling - repeating checks every X seconds.
