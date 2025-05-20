@@ -26,6 +26,7 @@ Some protocols:
   - duplex
   - 2008 first version, supported in chrome since 2009, standardized 2011
   - starts http requrest => upgrades to web socket
+    - https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/101
 
 ## How to achieve the real time updates
 
