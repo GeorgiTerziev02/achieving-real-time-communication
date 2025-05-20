@@ -25,6 +25,7 @@ Some protocols:
   - https://en.wikipedia.org/wiki/WebSocket
   - duplex
   - 2008 first version, supported in chrome since 2009, standardized 2011
+  - starts http requrest => upgrades to web socket
 
 ## How to achieve the real time updates
 
