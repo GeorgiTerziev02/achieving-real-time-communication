@@ -81,7 +81,38 @@ Note: try to always compare threaded vs event driven servers
 - Server-sent events
 - Web sockets
 
-## What is hidden in a real time communication library
+## What is hidden in a real time communication library 
+
+Usually such library has two implementations client and server. What is supported in such library:
+
+**General (both supported by the client and server implementation of the library):**
+- allowed transports and initial negotiation to decide the transport protocol between
+  - on premise and cloud example
+- every send message is wrapped inside an object that has two props event name and data
+- ping pong pattern
+  - to decide whether to keep the connection alive
+  - keep alive ping and timeout interval
+- message protocols
+  - json
+  - binary
+  - custom
+- operation logging
+- every created connection can be customised for each of the properties above => use builder pattern 
+
+**Client:**
+- connection grouping
+- reconnect/retry connect mechanism
+  - handle intentional and not intentional disconnects
+- stateful reconnect
+
+**Server:**
+- connection identifier (Guid)
+- does not have a userId to connection id out of the box
+  - this can be achieved simply with a map, but is a normal map enough?
+- handle connection
+- handle disconnection
+- handle event data (name)
+- registers the needed middleware on the connection layer of the server
 
 ### Example libs
 - js - https://socket.io/
