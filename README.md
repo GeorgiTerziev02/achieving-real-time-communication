@@ -28,6 +28,9 @@ Some protocols:
 Note: try to always compare threaded vs event driven servers
 
 - Threaded server
+  - thread per connection
+  - more memory
+  - think about thread safety
 - Event based
   - one main thread - the code is always executed by it
     - plus some more behind responsible for OS stuff like new data arrived by a tcp connection
