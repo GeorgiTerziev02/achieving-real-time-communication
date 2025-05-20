@@ -24,8 +24,10 @@ Some protocols:
 - WebSockets -> ws/wss
   - https://en.wikipedia.org/wiki/WebSocket
   - duplex
+  - faster
   - 2008 first version, supported in chrome since 2009, standardized 2011
-  - starts http requrest => upgrades to web socket
+  - starts http requrest => upgrades to web socket (also known as handshake)
+    - this is done because most of the servers/proxies/firewalls/load ballancers understand http
     - https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/101
 
 ## How to achieve the real time updates
