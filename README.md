@@ -27,6 +27,7 @@ What we will discuss
 - Short polling - repeating checks every X seconds.
     - Useful when instant updates aren't critical
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
+    - joke example: https://www.reddit.com/r/Jokes/comments/evrd45/a_bunny_walks_into_the_bakery/
     - pros:
       - simple
       - less simultaneous connections to the server
