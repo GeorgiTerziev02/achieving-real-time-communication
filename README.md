@@ -20,6 +20,7 @@ What is a protocol?
 
 Some protocols:
 - Http -> http/https
+  - https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview
 - WebSockets -> ws/wss
 
 ## How to achieve the real time updates
