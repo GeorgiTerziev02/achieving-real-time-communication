@@ -33,7 +33,7 @@ Some protocols:
 
 ## How to achieve the real time updates
 
-### What type of servers we have?
+### Firstly, what type of servers do we have?
 Note: try to always compare threaded vs event driven servers
 
 - Threaded server
@@ -62,7 +62,8 @@ Note: try to always compare threaded vs event driven servers
     - try not to block the main thread
     - more complex programming model
 
-What we will discuss
+
+### How can we achieve the real time communication
 - Short polling - repeating checks every X seconds.
     - Useful when instant updates aren't critical
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
@@ -78,17 +79,11 @@ What we will discuss
 - Server-sent events
 - Web sockets
 
-## Evoluciqta na kakavidata
+## What is hidden in a real time communication library
 
-- Shefa iska chat systema
-- na lelq ti ginka i spira toka za 10 sekundi
-    - reconnect
-        - retry
-    - a kak da razberem, 4e e disconnected
-        - ping pong
-        - zatwarq browser
-        - spira i toka
-- lelq ti ginka si izmislq nqkuw specialen protocol
+### Example libs
+- js - https://socket.io/
+- .net - https://dotnet.microsoft.com/en-us/apps/aspnet/signalr
 
 ## Implement Websocket communication
 In the given code implement the WebSocket transport (both on client and on the server).
