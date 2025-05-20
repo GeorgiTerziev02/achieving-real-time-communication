@@ -45,10 +45,13 @@ Note: try to always compare threaded vs event driven servers
   - node.js, python
   - node.js uses [libuv](https://libuv.org/)
   - you can still offload work to worked threads
-  - more complex programming model
   - https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
-  - can handle more connections - scalable
-  - low memory
+  - pros
+    - can handle more connections - scalable
+    - low memory
+  - cons
+    - try not to block the main thread
+    - more complex programming model
 
 What we will discuss
 - Short polling - repeating checks every X seconds.
