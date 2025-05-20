@@ -28,6 +28,7 @@ What we will discuss
     - Useful when instant updates aren't critical
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
     - pros:
+      - simple
       - less simultaneous connections to the server
       - user is not tied to a single server 
     - cons:
