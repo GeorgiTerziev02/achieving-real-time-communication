@@ -113,6 +113,7 @@ Note: try to always compare threaded vs event driven servers
     - might be blocked by proxies/firewall/custom network
     - watch out with threaded server
     - complexity can grow with the project
+      - example sending auth token
 
 ## Short polling
 ![image](https://github.com/user-attachments/assets/498f7903-fd30-4884-bf13-c84dd6b6b937)
