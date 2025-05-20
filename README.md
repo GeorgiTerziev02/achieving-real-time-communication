@@ -83,6 +83,7 @@ Note: try to always compare threaded vs event driven servers
 - Long polling
   - pros
     - "simple"
+    - needs just http
     - not much latency
     - better for real time updates than short polling
   - cons
