@@ -149,12 +149,12 @@ Usually such library has two implementations client and server. What is supporte
 - every created connection can be customised for each of the properties above => use builder pattern 
 
 #### Client:
-- connection grouping
 - reconnect/retry connect mechanism
   - handle intentional and not intentional disconnects
 - stateful reconnect
 
 #### Server:
+- connection grouping
 - connection identifier (Guid)
 - does not have a userId to connection id out of the box
   - this can be achieved simply with a map, but is a normal map enough?
