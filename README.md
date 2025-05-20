@@ -10,7 +10,7 @@ System where you receive updates in real time. Usually, achieved with web socket
     - direct peer-to-peer communication (no server needed)
     - https://webrtc.org/
     - https://en.wikipedia.org/wiki/WebRTC
-- CRDTs (Conflict free data structures) - having the same data replicated on several computers
+- CRDTs (Conflict-free replicated data structures) - having the same data replicated on several computers
     - https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type#Industry_use
     - https://jakelazaroff.com/words/an-interactive-intro-to-crdts/
 
