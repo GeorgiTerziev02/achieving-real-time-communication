@@ -22,6 +22,9 @@ Some protocols:
 - Http -> http/https
   - https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview
 - WebSockets -> ws/wss
+  - https://en.wikipedia.org/wiki/WebSocket
+  - duplex
+  - 2008 first version, supported in chrome since 2009
 
 ## How to achieve the real time updates
 
