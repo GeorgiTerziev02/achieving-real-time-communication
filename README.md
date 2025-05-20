@@ -24,7 +24,16 @@ Some protocols:
 
 ## How to achieve the real time updates
 
+### Servers
 Note: try to always compare threaded vs event driven servers
+
+- Threaded server
+- Event based
+  - one main thread - the code is always executed by it
+    - plus some more behind responsible for OS stuff like new data arrived by a tcp connection
+  - event loop
+  - node.js, python
+  - node.js uses [libuv](https://libuv.org/)
 
 https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
 
