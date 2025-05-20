@@ -28,9 +28,9 @@ Some protocols:
 Note: try to always compare threaded vs event driven servers
 
 - Threaded server
+  - thread per connection
   - pros
-    - thread per connection
-    - can run in parallel
+    - **can run in parallel**
     - simpler "sync" like code - [example](https://github.com/GeorgiTerziev02/My-Social-Media-Api/blob/master/MySocialMedia.Server/Features/Identity/IdentityController.cs)
   - cons
     - more memory
@@ -44,6 +44,8 @@ Note: try to always compare threaded vs event driven servers
   - event loop
   - node.js, python
   - node.js uses [libuv](https://libuv.org/)
+  - you can still offload work to worked threads
+  - more complex programming model
 
 https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
 
