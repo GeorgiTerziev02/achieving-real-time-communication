@@ -31,9 +31,7 @@ Some protocols:
     - this is done because most of the servers/proxies/firewalls/load ballancers understand http
     - https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/101
 
-## How to achieve the real time updates
-
-### Firstly, what type of servers do we have?
+##  What type of servers do we have?
 Note: try to always compare threaded vs event driven servers
 
 - Threaded server
@@ -63,8 +61,13 @@ Note: try to always compare threaded vs event driven servers
     - try not to block the main thread
     - more complex programming model
 
+### Threaded
+![image](https://github.com/user-attachments/assets/ee63eb60-9cf0-4f4f-8b98-f575572a3770)
+### Event-based
+![image](https://github.com/user-attachments/assets/dc41d3ce-0985-487f-8055-3477beb02f64)
 
-### How can we achieve the real time communication
+
+## How can we achieve the real time communication
 - Short polling - repeating checks every X seconds.
     - Useful when instant updates aren't critical
     - example: youtube live chat - https://www.reddit.com/r/csharp/comments/o0jffx/why_is_youtube_using_polling/
@@ -81,16 +84,16 @@ Note: try to always compare threaded vs event driven servers
 - Server-sent events
 - Web sockets
 
-### Short polling
+## Short polling
 ![image](https://github.com/user-attachments/assets/498f7903-fd30-4884-bf13-c84dd6b6b937)
 
-### Long polling
+## Long polling
 ![image](https://github.com/user-attachments/assets/4d519037-909f-4fc4-9cd6-1ee8d4b5808a)
 
-### Server sent events
+## Server sent events
 ![image](https://github.com/user-attachments/assets/fc4a9c82-6612-4432-9f2b-9cf3a5fa0db1)
 
-### Web socket
+## Web socket
 ![image](https://github.com/user-attachments/assets/f934e8c5-8d5f-4884-8896-c505e63a8e8f)
 
 
