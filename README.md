@@ -74,13 +74,20 @@ Note: try to always compare threaded vs event driven servers
       - try searching - "Top 50 YouTube Live Sub Count" and view the dev tools tab of the browser
     - joke example: https://www.reddit.com/r/Jokes/comments/evrd45/a_bunny_walks_into_the_bakery/
     - pros:
-      - simple
+      - "simple"
       - less simultaneous connections to the server
       - user is not tied to a single server 
     - cons:
       - load
       - latency
 - Long polling
+  - pros
+    - "simple"
+    - not much latency
+  - cons
+    - request timeout (browser stuff)
+    - load
+    - not good for threaded server
 - Server-sent events
 - Web sockets
 
