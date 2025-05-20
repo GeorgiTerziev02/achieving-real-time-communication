@@ -14,6 +14,8 @@ export class RealTimeConnection {
 	// - stateful reconnect
 	//   - reconnect with the same connectionId
 
+	// key - event name
+	// value - array(set for easier delete) of handlers
 	private eventsToHandlers = new Map();
 	private intentionalClose = false;
 

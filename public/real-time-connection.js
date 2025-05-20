@@ -13,6 +13,8 @@ export class RealTimeConnection {
         //    - kak da se obrabotvat dannite
         // - stateful reconnect
         //   - reconnect with the same connectionId
+        // key - event name
+        // value - array(set for easier delete) of handlers
         this.eventsToHandlers = new Map();
         this.intentionalClose = false;
         this.transport.onReceiveHandler = (eventMessage) => {
