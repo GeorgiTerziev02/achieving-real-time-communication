@@ -91,6 +91,14 @@ Note: try to always compare threaded vs event driven servers
     - load
     - not good for threaded server
 - Server-sent events
+  - https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
+  - one directional communication server to client
+  - pros
+    - real time
+    - built in reconnect
+  - cons
+    - supports only text data - UTF8
+    - can be limitted by the browser if it not used over HTTP/2 - browser usually allows up to 6 (as far as I remember) connections per domain. You will suffer with multiple tabs.
 - Web sockets
   - duplex
   - long living
