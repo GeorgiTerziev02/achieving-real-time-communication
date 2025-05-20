@@ -114,6 +114,8 @@ Note: try to always compare threaded vs event driven servers
     - watch out with threaded server
     - complexity can grow with the project
       - example sending auth token
+    - silent disconenct when one side loses connection
+      - thats why you need ping pong mechanism
 
 ## Short polling
 ![image](https://github.com/user-attachments/assets/498f7903-fd30-4884-bf13-c84dd6b6b937)
