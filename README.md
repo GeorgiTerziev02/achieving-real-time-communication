@@ -36,6 +36,7 @@ Note: try to always compare threaded vs event driven servers
     - more memory
     - context switching
     - think about thread safety
+    - os limits for threads
 - Event based
   - one main thread - the code is always executed by it
     - plus some more behind responsible for OS stuff like new data arrived by a tcp connection
