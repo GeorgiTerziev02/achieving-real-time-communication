@@ -30,6 +30,8 @@ Note: try to always compare threaded vs event driven servers
 - Threaded server
   - thread per connection
   - more memory
+  - can run in parallel
+  - simpler "sync" like code - [example](https://github.com/GeorgiTerziev02/My-Social-Media-Api/blob/master/MySocialMedia.Server/Features/Identity/IdentityController.cs)
   - think about thread safety
 - Event based
   - one main thread - the code is always executed by it
