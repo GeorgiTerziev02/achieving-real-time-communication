@@ -214,6 +214,8 @@ export class ConnectionsRegistry {
     private constructor() {
         this.connections = new Map();
     }
+
+    //...
 }
 ```
 
