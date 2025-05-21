@@ -21,6 +21,15 @@ app.get('/negotiate', (req: Request, res: Response) => {
   })
 });
 
+app.get('/test', (req: Request, res: Response) => {
+  // freeze the main thread
+  const start = Date.now();
+  while (Date.now() - start < 5000) {
+    // do nothing
+  }
+  res.send('Hello World');
+});
+
 
 const connectionsRegistry = ConnectionsRegistry.getInstance();
 

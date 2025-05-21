@@ -21,6 +21,14 @@ app.get('/negotiate', (req, res) => {
         supportedTransports: ['webSockets', 'longPolling', 'serverSentEvents']
     });
 });
+app.get('/test', (req, res) => {
+    // freeze the main thread
+    const start = Date.now();
+    while (Date.now() - start < 5000) {
+        // do nothing
+    }
+    res.send('Hello World');
+});
 const connectionsRegistry = connections_registry_1.ConnectionsRegistry.getInstance();
 // Start server
 const PORT = process.env.PORT || 3000;
