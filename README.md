@@ -50,12 +50,12 @@ Note: try to always compare threaded vs event driven servers
     - os limits for threads
     - idle threads
 - Event based
-  - one main thread - which handles the requests
-    - plus some more behind responsible for OS stuff like new data arrived by a tcp connection
-  - event loop - (this is front end queue but concept is the same) https://www.youtube.com/watch?v=8aGhZQkoFbQ&t=31s&ab_channel=JSConf
+  - one main thread - which handles the requests and returns the responses
+    - plus some more behind responsible for OS stuff like new data arrived by a tcp connection, file reading etc.
+  - event loop - (this video is for the front end queue but the concept is the same) https://www.youtube.com/watch?v=8aGhZQkoFbQ&t=31s&ab_channel=JSConf
   - node.js, python
   - node.js uses [libuv](https://libuv.org/)
-  - you can still offload work to worked threads
+  - you can still offload work to worked threads - https://last9.io/blog/understanding-worker-threads-in-node-js/
   - https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick
   - pros
     - can handle more connections - scalable
@@ -63,6 +63,7 @@ Note: try to always compare threaded vs event driven servers
   - cons
     - try not to block the main thread
     - more complex programming model
+    
 
 ### Threaded
 ![image](https://github.com/user-attachments/assets/ee63eb60-9cf0-4f4f-8b98-f575572a3770)
