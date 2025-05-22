@@ -235,6 +235,11 @@ export class ConnectionsRegistry {
 - js - https://socket.io/
 - .net - https://dotnet.microsoft.com/en-us/apps/aspnet/signalr
 
+## Folder structure
+- 'src' - node.js back end supporting long polling, sse, websocket
+- 'client' - js client communicating with the back end supporting long polling, sse, websocket
+- 'multi-threaded-server-demo' - simple .NET (c#) server. Used for understanding the difference between blocking a thread on a multithreaded server vs blocking the main thread of an event-based server
+
 ## Implement Websocket communication
 In the given code implement the WebSocket transport (both on client and on the server).
 
