@@ -50,7 +50,7 @@ Note: try to always compare threaded vs event driven servers
     - os limits for threads
     - idle threads
 - Event based
-  - one main thread - the code is always executed by it
+  - one main thread - which handles the requests
     - plus some more behind responsible for OS stuff like new data arrived by a tcp connection
   - event loop - (this is front end queue but concept is the same) https://www.youtube.com/watch?v=8aGhZQkoFbQ&t=31s&ab_channel=JSConf
   - node.js, python
