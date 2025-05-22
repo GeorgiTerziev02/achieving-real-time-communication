@@ -242,4 +242,11 @@ Docs of the js (client) web socket - https://developer.mozilla.org/en-US/docs/We
 
 Docs of the js (server) web socket - https://www.npmjs.com/package/ws
 
+## How to run example app
+
+1. Install node.js
+2. Open cmd in the folder
+3. Run "npm install"
+4. Run "npm run dev"
+5. Open two browser tabs on localhost:3000 and start chatting
 
