@@ -1,5 +1,7 @@
 # Achieving real time communication examples
 
+Theory and demo code from an additional lecture led by me on the topic "Real time communication between server and client".
+
 Note: The code is for demo purposes and there might be errors.
   
 ## Real time systems
