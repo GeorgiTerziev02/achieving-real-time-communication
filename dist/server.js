@@ -21,7 +21,8 @@ app.get('/negotiate', (req, res) => {
         supportedTransports: ['webSockets', 'longPolling', 'serverSentEvents']
     });
 });
-app.get('/test', (req, res) => {
+// try sending two requests two this endpoint and see what happens
+app.get('/freeze', (req, res) => {
     // freeze the main thread
     const start = Date.now();
     while (Date.now() - start < 5000) {
