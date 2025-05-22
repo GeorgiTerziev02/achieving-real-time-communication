@@ -1,0 +1,6 @@
+@MultiThreadedDemo_HostAddress = http://localhost:5128
+
+GET {{MultiThreadedDemo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
