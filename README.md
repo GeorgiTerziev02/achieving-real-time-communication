@@ -1,5 +1,6 @@
 # Achieving real time communication examples
 
+Note: The code is for demo purposes and there might be errors.
   
 ## Real time systems
 
