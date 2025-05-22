@@ -250,3 +250,4 @@ Docs of the js (server) web socket - https://www.npmjs.com/package/ws
 4. Run "npm run dev"
 5. Open two browser tabs on localhost:3000 and start chatting
 
+Any changes you make to the codebase will be instantly rebuilded

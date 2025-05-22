@@ -21,7 +21,8 @@ app.get('/negotiate', (req: Request, res: Response) => {
   })
 });
 
-app.get('/test', (req: Request, res: Response) => {
+// try sending two requests two this endpoint and see what happens
+app.get('/freeze', (req: Request, res: Response) => {
   // freeze the main thread
   const start = Date.now();
   while (Date.now() - start < 5000) {
