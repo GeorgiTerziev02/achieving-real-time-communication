@@ -1,6 +1,6 @@
 # Achieving real time communication
 
-Theory and demo code from an additional lecture led by me on the topic "Real time communication between server and client".
+Theory and demo code from an additional lecture given by me on the topic "Real time communication between server and client".
 
 Note: The code is for demo purposes and there might be errors.
   
